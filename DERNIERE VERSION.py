@@ -22,7 +22,9 @@ def cpob(lbl,lwh):
     for i in lbl:
         for j in (-9,-8,-7,-1,+1,+7,+8,+9):
             if recursifb(lbl,lwh,cpo,i,j,2) != None:
-                cpo.append(recursifb(lbl,lwh,cpo,i,j,2))
+                v=recursifb(lbl,lwh,cpo,i,j,2)
+                if v>0 and v<64:
+                    cpo.append(v)
     return cpo
 
 
@@ -42,7 +44,9 @@ def cpow(lbl,lwh):
     for i in lwh:
         for j in (-9,-8,-7,-1,+1,+7,+8,+9):
             if recursifw(lbl,lwh,cpo,i,j,2) != None:
-                cpo.append(recursifw(lbl,lwh,cpo,i,j,2))
+                v=recursifw(lbl,lwh,cpo,i,j,2)
+                if v>0 and v<64:
+                    cpo.append(v)
     return cpo
 
 def inscription():
@@ -104,7 +108,7 @@ def server():
                         data=file.read() 
                     print("vies : ",message['lives'])
                     jeu.send(data.encode())
-                    #print(data)
+                    print(data)
                 
         
 
