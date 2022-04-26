@@ -1,6 +1,5 @@
 import random
-dico={'request': 'play', 'lives': 3, 'errors': [], 'state': {'players': ['Edwin et Tim2', 'Edwin et Tim1'], 'current': 0, 'board': [[22, 29, 4, 13, 48, 41, 20, 32, 34, 33], [28, 45, 36, 25, 26, 44, 5, 19, 12, 59, 51, 27, 35, 43]]}}
-#print(dico)
+dico={'request': 'play', 'lives': 3, 'errors': [], 'state': {'players': ['Edwin et Tim2', 'Edwin et Tim1'], 'current': 1, 'board': [[23, 30, 26, 28, 34, 35, 44, 37, 36], [14, 21, 42, 19, 20, 27, 45, 29]]}}
 lb=dico['state']['board'][0]
 lw=dico['state']['board'][1]
 print(dico['lives'])
@@ -23,7 +22,9 @@ def cpob(lbl,lwh):
     for i in lbl:
         for j in (-9,-8,-7,-1,+1,+7,+8,+9):
             if recursifb(lbl,lwh,cpo,i,j,2) != None:
-                cpo.append(recursifb(lbl,lwh,cpo,i,j,2))
+                v=recursifb(lbl,lwh,cpo,i,j,2)
+                if v>0 and v<64:
+                    cpo.append(v)
     return cpo
 
 
@@ -43,7 +44,9 @@ def cpow(lbl,lwh):
     for i in lwh:
         for j in (-9,-8,-7,-1,+1,+7,+8,+9):
             if recursifw(lbl,lwh,cpo,i,j,2) != None:
-                cpo.append(recursifw(lbl,lwh,cpo,i,j,2))
+                v=recursifw(lbl,lwh,cpo,i,j,2)
+                if v>0 and v<64:
+                    cpo.append(v)
     return cpo
 
 
