@@ -1,13 +1,18 @@
-dico={'request': 'play', 'lives': 2, 'errors': [{'message': 'Edwin et Tim2 take too long to respond: 17.311607837677002s', 'state': {'players': ['Edwin et Tim2', 'Edwin et Tim1'], 'current': 1, 'board': [[28, 35, 26, 27], [36]]}, 'move': 26}], 'state': {'players': ['Edwin et Tim2', 'Edwin et Tim1'], 'current': 0, 'board': [[35, 26, 27], [29,30,36, 20, 28]]}}
+import random
+dico={'request': 'play', 'lives': 3, 'errors': [], 'state': {'players': ['Edwin et Tim2', 'Edwin et Tim1'], 'current': 0, 'board': [[22, 29, 4, 13, 48, 41, 20, 32, 34, 33], [28, 45, 36, 25, 26, 44, 5, 19, 12, 59, 51, 27, 35, 43]]}}
 #print(dico)
 lb=dico['state']['board'][0]
 lw=dico['state']['board'][1]
+print(dico['lives'])
 
 #j'ai rendu ça récursif
 #ne marche que pour les NWARS 
 #NE PRENDS PAS EN COMPTE LES BORDS !!!!
 
 def recursifb(lb,lw,cp,i,j,a):
+    if i+j in lb and i+j*a in lw and i+j*a in bord:
+        return None
+
     if i+j in lw and i+j*a not in cp and i+j*a not in lb and i+j*a not in lw:
         return i+j*a
     if i+j in lw and i+j*a not in cp and i+j*a not in lb and i+j*a in lw:
@@ -26,11 +31,15 @@ def cpb(lbl,lwh):
 print(cpb(lb,lw))
 
 def recursifw(lb,lw,cp,i,j,a):
+    if i+j in lb and i+j*a in lb and i+j*a in bord:
+        return None
+    
     if i+j in lb and i+j*a not in cp and i+j*a not in lw and i+j*a not in lb:
         return i+j*a
     if i+j in lb and i+j*a not in cp and i+j*a not in lw and i+j*a in lb:
         a=a+1
         return(recursifw(lb,lw,cp,i,j,a))
+    
 
 def cpw(lbl,lwh):
     cpo=[]
