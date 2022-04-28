@@ -3,15 +3,14 @@ import json
 import random
 
 ipserver="localhost"
+#ipserver="172.17.34.158"
 hisserverAddress=(ipserver,3000)    #adresse de l'hôte du serveur
 bord=[0,1,2,3,4,5,6,7,15,23,31,39,47,55,63,62,61,60,59,58,57,56,48,40,32,24,16,8]
 
 def recursifb(lb,lw,cp,i,j,a):
-    if i+j in lb and i+j*a in lw and i+j*a in bord:
-        return None
-
-    if i+j in lw and i+j*a not in cp and i+j*a not in lb and i+j*a not in lw:
-        return i+j*a
+    if i+j*(a-1)not in bord:
+        if i+j in lw and i+j*a not in cp and i+j*a not in lb and i+j*a not in lw:
+            return i+j*a
     if i+j in lw and i+j*a not in cp and i+j*a not in lb and i+j*a in lw:
         a=a+1
         return(recursifb(lb,lw,cp,i,j,a))
@@ -22,18 +21,15 @@ def cpob(lbl,lwh):
     for i in lbl:
         for j in (-9,-8,-7,-1,+1,+7,+8,+9):
             if recursifb(lbl,lwh,cpo,i,j,2) != None:
-                v=recursifb(lbl,lwh,cpo,i,j,2)
-                if v>0 and v<64:
-                    cpo.append(v)
+                cpo.append(recursifb(lbl,lwh,cpo,i,j,2))
     return cpo
 
 
 def recursifw(lb,lw,cp,i,j,a):
-    if i+j in lb and i+j*a in lb and i+j*a in bord:
-        return None
-    
-    if i+j in lb and i+j*a not in cp and i+j*a not in lw and i+j*a not in lb:
-        return i+j*a
+
+    if i+j*(a-1)not in bord:
+        if i+j in lb and i+j*a not in cp and i+j*a not in lw and i+j*a not in lb:
+            return i+j*a
     if i+j in lb and i+j*a not in cp and i+j*a not in lw and i+j*a in lb:
         a=a+1
         return(recursifw(lb,lw,cp,i,j,a))
@@ -44,9 +40,7 @@ def cpow(lbl,lwh):
     for i in lwh:
         for j in (-9,-8,-7,-1,+1,+7,+8,+9):
             if recursifw(lbl,lwh,cpo,i,j,2) != None:
-                v=recursifw(lbl,lwh,cpo,i,j,2)
-                if v>0 and v<64:
-                    cpo.append(v)
+                cpo.append(recursifw(lbl,lwh,cpo,i,j,2))
     return cpo
 
 def inscription():
@@ -85,15 +79,18 @@ def server():
                     if message['state']['current']==0:
                         #print("Coups possibles pour les noirs : ")
                         #print(cpob(lb,lw))
-                        case=random.choice(cpob(lb,lw))
-
+                        if cpob(lb,lw)==[]:
+                            case='"null"'
+                        else:
+                            case=random.choice(cpob(lb,lw))
+                        
                     if message['state']['current']==1:
                         #print("Coups possibles pour les blancs : ")
                         #(cpow(lb,lw))
-                        case=random.choice(cpow(lb,lw))
-
-
-
+                        if cpow(lb,lw)==[]:
+                            case='"null"'
+                        else:
+                            case=random.choice(cpow(lb,lw))
 
                     filename="move.json"
                     jsonstring='{"response": "move","move": '
