@@ -5,7 +5,9 @@ lb=dico['state']['board'][0]
 lw=dico['state']['board'][1]
 print(dico['lives'])
 
-bord=[0,1,2,3,4,5,6,7,15,23,31,39,47,55,63,62,61,60,59,58,57,56,48,40,32,24,16,8]
+#j'ai rendu ça récursif
+#ne marche que pour les NWARS 
+#NE PRENDS PAS EN COMPTE LES BORDS !!!!
 
 def recursifb(lb,lw,cp,i,j,a):
     #if a>1:
@@ -19,7 +21,7 @@ def recursifb(lb,lw,cp,i,j,a):
         return(recursifb(lb,lw,cp,i,j,a))
 
 
-def cpob(lbl,lwh):
+def cpb(lbl,lwh):
     cpo=[]
     for i in lbl:
         for j in (-9,-8,-7,-1,+1,+7,+8,+9):
@@ -28,6 +30,7 @@ def cpob(lbl,lwh):
                 cpo.append(v)
     return cpo
 
+print(cpb(lb,lw))
 
 def recursifw(lb,lw,cp,i,j,a):
     if i+j*(a-1)not in bord:
@@ -38,7 +41,7 @@ def recursifw(lb,lw,cp,i,j,a):
         return(recursifw(lb,lw,cp,i,j,a))
     
 
-def cpow(lbl,lwh):
+def cpw(lbl,lwh):
     cpo=[]
     for i in lwh:
         for j in (-9,-8,-7,-1,+1,+7,+8,+9):
@@ -47,13 +50,6 @@ def cpow(lbl,lwh):
                 cpo.append(v)
     return cpo
 
-
-print("Coups possibles pour les noirs : ")
-print(cpob(lb,lw))
-
-print("Coups possibles pour les blancs : ")
-print(cpow(lb,lw))
-
-case=random.choice(cpow(lb,lw))
+print(cpw(lb,lw))
 
 
