@@ -10,7 +10,7 @@ bord=[0,1,2,3,4,5,6,7,15,23,31,39,47,55,63,62,61,60,59,58,57,56,48,40,32,24,16,8
 bordg=[0,8,16,24,32,40,48,56]     #bord gauche
 bordd=[7,15,23,31,39,47,55,63]      #bord droit
 
-
+#TROUVER LES COUPS
 def recursifb(lb,lw,cp,i,j,a,b):                                    #fonction recursive qui retourne la case sur laquelle peut jouer le joueur noir pour une certaine case de départ
     if i+j*(a-2) in bordd and j in [-7,+1,+9]:                      #et une certaine direction j    renvoie None si pas de coup possible
         return None                                                 #ma petite fierté cette fonction
@@ -65,8 +65,55 @@ def cpw(lbl,lwh):
                     cpo.append(v)
     return cpo
 
+#ANALYSER LES COUPS
+def pionsprisb(lw,lb,coup,j,a=2,b=1):
+    case = coup 
+    if case+j*a not in range(64):
+        return None
+    if case+j*a not in lw and case+j*a not in lb:
+        return None
+    if case+j*a in lb:
+        return b
+    else:
+        a+=1
+        b+=1
+        return(pionsprisb(lw,lb,coup,j,a,b))
+
+def bestb(lb,lw):                                                    #renvoie le coup qui prend le plus de pion d'un coup
+    max={"coup":None,"points":0}
+    for coup in cpb(lb,lw):
+        for j in (-9,-8,-7,-1,+1,+7,+8,+9):
+            if pionsprisb(lw,lb,coup,j) !=None:
+                if pionsprisb(lw,lb,coup,j)>max["points"]:
+                    max["coup"]=coup
+                    max["points"]=pionsprisb(lw,lb,coup,j)
+    return max["coup"]
 
 
+def pionsprisw(lw,lb,coup,j,a=2,b=1):
+    case = coup 
+    if case+j*a not in range(64):
+        return None
+    if case+j*a not in lw and case+j*a not in lb:
+        return None
+    if case+j*a in lw:
+        return b
+    else:
+        a+=1
+        b+=1
+        return(pionsprisw(lw,lb,coup,j,a,b))
+
+def bestw(lb,lw):                                                    #renvoie le coup qui prend le plus de pion d'un coup
+    max={"coup":None,"points":0}
+    for coup in cpw(lb,lw):
+        for j in (-9,-8,-7,-1,+1,+7,+8,+9):
+            if pionsprisw(lw,lb,coup,j) !=None:
+                if pionsprisw(lw,lb,coup,j)>max["points"]:
+                    max["coup"]=coup
+                    max["points"]=pionsprisw(lw,lb,coup,j)
+    return max["coup"]
+
+#LANCEMENT
 def inscription():                                                 #fonction de depart qui se connecte au serveur de jeu et s'inscript
     with open ("inscription1.json","r") as file:   
         data=file.read()                                           #contient les donnée d'inscription
@@ -101,13 +148,13 @@ def server():                                                      #fonction qui
                         if cpb(lb,lw)==[]:
                             case='null'
                         else:
-                            case=random.choice(cpb(lb,lw))
+                            case=bestb(lb,lw)
                         
                     if message['state']['current']==1:
                         if cpw(lb,lw)==[]:
                             case='null'
                         else:
-                            case=random.choice(cpw(lb,lw))
+                            case=bestw(lb,lw)
 
                     filename="move.json"
                     jsonstring='{"response": "move","move": '

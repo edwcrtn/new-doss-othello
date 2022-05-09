@@ -36,7 +36,7 @@ def apply(lb,lw,i,j,coup,player):
     if player==0: #black
         
         
-    pass
+        pass
 
 
 print(gameover(lb,lw))
