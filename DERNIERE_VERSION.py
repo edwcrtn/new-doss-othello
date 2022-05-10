@@ -4,7 +4,11 @@ import random
 
 ipserver="localhost"
 #ipserver="172.17.10.33"
-hisserverAddress=(ipserver,3000)    #adresse de l'hôte du serveur
+port=3000
+hisserverAddress=(ipserver,port)
+myserveraddress='0.0.0.0',8887    #adresse de l'hôte du serveur
+pong={"response": "pong"}
+ping={"request": "ping"}
 
 bord=[0,1,2,3,4,5,6,7,15,23,31,39,47,55,63,62,61,60,59,58,57,56,48,40,32,24,16,8] 
 bordg=[0,8,16,24,32,40,48,56]     #bord gauche
@@ -119,55 +123,40 @@ def inscription():                                                 #fonction de 
         data=file.read()                                           #contient les donnée d'inscription
     with socket.socket() as s:     
         s.connect(hisserverAddress)
-        s.send(data.encode())
-        response=json.loads(s.recv(2048).decode())   
-        print(response)
+        s.send(data.encode())  
         server()
 
 def server():                                                      #fonction qui tourne en boucle
-    with socket.socket() as s:
-        myserverAddress=('0.0.0.0',8887)                           #renvoie pong quand reçoit ping
-        s.bind(myserverAddress)                                    #renvoie un coup quand on lui en demande un
-        s.listen()
-        pong={"response": "pong"}
-        ping={"request": "ping"}
-        
+    with socket.socket() as s:                                    #renvoie pong quand reçoit ping
+        s.bind(myserveraddress)                                    #renvoie un coup quand on lui en demande un
+        s.listen() 
         while True:
             jeu, address=s.accept()
             message=json.loads(jeu.recv(2048).decode())
-            print(message)
             if message==ping:
                 jeu.send(json.dumps(pong).encode())
-                print(pong)
             else:
                 if message['request']=='play':
                     lb=message['state']['board'][0]          #liste des index des noirs
-                    lw=message['state']['board'][1]          #liste des index des blancs
-                    
+                    lw=message['state']['board'][1]          #liste des index des blancs  
                     if message['state']['current']==0:
                         if cpb(lb,lw)==[]:
                             case='null'
                         else:
-                            case=bestb(lb,lw)
-                        
+                            case=bestb(lb,lw)                       
                     if message['state']['current']==1:
                         if cpw(lb,lw)==[]:
                             case='null'
                         else:
                             case=bestw(lb,lw)
-
-                    filename="move.json"
-                    jsonstring='{"response": "move","move": '
-                    
-                    jsonstring+=str(case)+','
-                    jsonstring+='"message": "'+str(case)+'"}'  
+                    jsonstring='{"response": "move","move": ' + str(case) +',' + '"message": "'+str(case)+'"}'           
                     data=json.loads(jsonstring)
-                    file=open(filename,'w')
+                    file=open("move.json",'w')
                     json.dump(data,file)
                     with open("move.json","r") as file:
                         data=file.read() 
                     jeu.send(data.encode())
-                    print(data)
-                       
 
-inscription()
+                       
+if __name__ == "__main__":
+    inscription()
