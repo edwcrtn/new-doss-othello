@@ -15,3 +15,7 @@ Le fichier Inscription1.json contient nos données d'inscription
 Le fichier move.json est le message que l'onenvoie au serveur hôte
 
 Le fichier test_DERNIERE_VERSION.py teste notre couverture de code, qui est de 80%
+
+Tous les commentaires explicatifs sont dans le fichier principal DERNIERE_VERSION.py
+
+J'adore les fonctions récursives
