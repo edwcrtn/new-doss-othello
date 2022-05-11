@@ -1,21 +1,20 @@
 import random
 dico={'request': 'play', 'lives': 3, 'errors': [], 'state': {'players': ['Edwin et Tim2', 'Edwin et Tim1'], 'current': 1, 'board': [[22], [23]]}}
 dico={'request': 'play', 'lives': 3, 'errors': [], 'state': {'players': ['Edwin et Tim1', 'Edwin et Tim2'], 'current': 1, 'board': [[24,25], [26]]}}
-lw=dico['state']['board'][1]
-lb=dico['state']['board'][0]
+lw=dico['state']['board'][1]   #liste black
+lb=dico['state']['board'][0]   #liste white
 
 bord=[0,1,2,3,4,5,6,7,15,23,31,39,47,55,63,62,61,60,59,58,57,56,48,40,32,24,16,8]
-bordg=[0,8,16,24,32,40,48,56]
-bordd=[7,15,23,31,39,47,55,63]
+bordg=[0,8,16,24,32,40,48,56]  #bord droit
+bordd=[7,15,23,31,39,47,55,63]  #bord gauche
 
 
 
-def recursifb(lb,lw,cp,i,j,a,b):
+def recursifb(lb,lw,cp,i,j,a,b):                #cp = coup possible 
     if i+j*(a-2) in bordd and j in [-7,+1,+9]:
         return None
     if i+j*(a-2) in bordg and j in [-9,-1,+7]:
-        return None
-    
+        return None   
     if i+j*b in lw and i+j*a not in cp and i+j*a not in lb and i+j*a not in lw :
         if i+j*b in bordd and j in [-7,+1,+9]:
             return None

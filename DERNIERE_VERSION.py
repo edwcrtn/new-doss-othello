@@ -5,10 +5,10 @@ import random
 ipserver="172.17.10.33"
 ipserver="localhost"
 port=3000
-hisserverAddress=(ipserver,port)
+hisserverAddress=(ipserver,port)      #adresse de l'hôte du serveur
 monip='0.0.0.0'
 monport=8887
-myserveraddress=(monip,monport)    #adresse de l'hôte du serveur
+myserveraddress=(monip,monport)    
 pong={"response": "pong"}
 ping={"request": "ping"}
 
@@ -21,13 +21,13 @@ borb=[56,57,58,59,60,61,62,63]
 auteurs="Edwin Creten et Timothé Couturier"
 
 #TROUVER LES COUPS
-def recursifb(lb,lw,cp,i,j,a,b):                                    #fonction recursive qui retourne la case sur laquelle peut jouer le joueur noir pour une certaine case de départ
+def recursifb(lb,lw,cp,i,j,a,b):               #fonction recursive qui retourne la case sur laquelle peut jouer le joueur noir pour une certaine case de départ
     if i+j*(a-2) in bordd:                     #et une certaine direction j    renvoie None si pas de coup possible
         if j in [-7,+1,+9]: 
-            return None                                                 #ma petite fierté cette fonction
+            return None                        #ma petite fierté cette fonction
     if i+j*(a-2) in bordg:
-        if j in [-9,-1,+7]:
-            return None
+        if j in [-9,-1,+7]:                    #lb = liste black lw = liste white
+            return None                        #i est la case dont on regarde les voisins    a et b sont des index
     if i+j*b in lw:
         if i+j*a not in cp:
             if i+j*a not in lb:
@@ -58,7 +58,7 @@ def cpb(lbl,lwh):                                                  #fonction qui
                     cpo.append(v)
     return cpo
 
-def recursifw(lb,lw,cp,i,j,a,b):                                  #meme principe mais pour les blancs
+def recursifw(lb,lw,cp,i,j,a,b):                                  #même principe mais pour les blancs
     if i+j*(a-2) in bordd:
         if j in [-7,+1,+9]:
             return None
@@ -85,7 +85,7 @@ def recursifw(lb,lw,cp,i,j,a,b):                                  #meme principe
                     return(recursifw(lb,lw,cp,i,j,a,b))
     
 
-def cpw(lbl,lwh):
+def cpw(lbl,lwh):                                #même principe mais pour les blancs
     cpo=[]
     for i in lwh:
         for j in (-9,-8,-7,-1,+1,+7,+8,+9):
@@ -96,7 +96,7 @@ def cpw(lbl,lwh):
     return cpo
 
 #ANALYSER LES COUPS
-def pionsprisb(lw,lb,coup,j,a=2,b=1):
+def pionsprisb(lw,lb,coup,j,a=2,b=1):                               #fonction recursive qui renvoie le nombre de pions pris à l'ennemi
     case = coup 
     if case+j*a not in range(64):
         return None
@@ -155,7 +155,7 @@ def inscription():                                                 #fonction de 
         server()
 
 def server():                                                      #fonction qui tourne en boucle
-    with socket.socket() as s:                                    #renvoie pong quand reçoit ping
+    with socket.socket() as s:                                     #renvoie pong quand reçoit ping
         s.bind(myserveraddress)                                    #renvoie un coup quand on lui en demande un
         s.listen() 
         while True:
