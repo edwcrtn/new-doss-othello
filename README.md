@@ -30,3 +30,6 @@ Tous les commentaires explicatifs sont dans le fichier principal DERNIERE_VERSIO
 #POUR CHANGER LE PORT :
 Il faut changer le numéro dans le fichier "Inscription1.json" et mettre le même à la ligne 9 du fichier "DERNIERE_VERSION.py".
 Le port est 8887 par défaut.
+
+#POUR LANCER LE PROGRAMME
+Il suffit de cliquer sur "Run Python File"
