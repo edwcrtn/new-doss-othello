@@ -1,6 +1,5 @@
 import random
-dico={'request': 'play', 'lives': 3, 'errors': [], 'state': {'players': ['Edwin et Tim2', 'Edwin et Tim1'], 'current': 1, 'board': [[22], [23]]}}
-dico={'request': 'play', 'lives': 3, 'errors': [], 'state': {'players': ['Edwin et Tim1', 'Edwin et Tim2'], 'current': 1, 'board': [[24,25], [26]]}}
+dico={'request': 'play', 'lives': 3, 'errors': [], 'state': {'players': ['Co', 'RECURSIVINATOR'], 'current': 1, 'board': [[3, 12, 42, 1, 10, 11, 19, 37, 23, 44, 36, 43, 5, 13, 21, 34, 35, 39, 31, 30, 24, 26, 27, 25, 28, 17, 29], [20, 0, 9, 18]]}}
 lw=dico['state']['board'][1]   #liste black
 lb=dico['state']['board'][0]   #liste white
 

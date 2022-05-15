@@ -2,7 +2,6 @@ import socket
 import json
 import random
 
-ipserver="172.17.10.33"
 ipserver="localhost"
 port=3000
 hisserverAddress=(ipserver,port)      #adresse de l'hôte du serveur
@@ -18,7 +17,14 @@ bordd=[7,15,23,31,39,47,55,63]      #bord droit
 bordh=[0,1,2,3,4,5,6,7]
 borb=[56,57,58,59,60,61,62,63]
 
-auteurs="Edwin Creten et Timothé Couturier"
+cent=[0,7,56,63]
+moinsvingt=[1,8,6,15,55,62,57,48]
+moinsun=[18,19,20,21,26,27,28,29,34,35,36,37,42,43,44,45]
+moinsdeux=[10,11,12,13,22,30,38,46,53,52,51,50,41,33,25,17]
+moinscinquante=[9,14,54,49]
+dix=[2,16,40,58,61,47,23,5]
+cinq=[24,32,59,60,31,39,3,4]
+
 
 #TROUVER LES COUPS
 def recursifb(lb,lw,cp,i,j,a,b):               #fonction recursive qui retourne la case sur laquelle peut jouer le joueur noir pour une certaine case de départ
@@ -110,15 +116,37 @@ def pionsprisb(lw,lb,coup,j,a=2,b=1):                               #fonction re
         b+=1
         return(pionsprisb(lw,lb,coup,j,a,b))
 
-def bestb(lb,lw):                                                    #renvoie le coup qui prend le plus de pion d'un coup
-    max={"coup":None,"points":0}
-    for coup in cpb(lb,lw):
-        for j in (-9,-8,-7,-1,+1,+7,+8,+9):
-            if pionsprisb(lw,lb,coup,j) !=None:
-                if pionsprisb(lw,lb,coup,j)>max["points"]:
-                    max["coup"]=coup
-                    max["points"]=pionsprisb(lw,lb,coup,j)
-    return max["coup"]
+def bestb(lb,lw,tour):
+    print(tour) 
+    if tour<16:
+        for coup in cpb(lb,lw):
+            celui={"coup":None}
+            if coup in cent:
+                celui["coup"]=coup
+            elif coup in dix and celui["coup"] not in cent:
+                celui["coup"]=coup
+            elif coup in cinq and celui["coup"] not in cent and celui["coup"] not in dix:
+                celui["coup"]=coup
+            elif coup in moinsun and celui["coup"] not in cent and celui["coup"] not in dix and celui["coup"] not in cinq:
+                celui["coup"]=coup
+            elif coup in moinsdeux and celui["coup"] not in cent and celui["coup"] not in dix and celui["coup"] not in cinq and celui["coup"] not in moinsun:
+                celui["coup"]=coup
+            elif coup in moinsvingt and celui["coup"] not in cent and celui["coup"] not in dix and celui["coup"] not in cinq and celui["coup"] not in moinsun and celui["coup"] not in moinsdeux:
+                celui["coup"]=coup
+            elif coup in moinscinquante and celui["coup"] not in cent and celui["coup"] not in dix and celui["coup"] not in cinq and celui["coup"] not in moinsun and celui["coup"] not in moinsdeux and celui["coup"] not in moinsvingt:
+                celui["coup"]=coup
+            return celui["coup"]
+    else:                                                   #renvoie le coup qui prend le plus de pion d'un coup
+        max={"coup":None,"points":0}
+        for coup in cpb(lb,lw):
+            if coup in cent:
+                return coup
+            for j in (-9,-8,-7,-1,+1,+7,+8,+9):
+                if pionsprisb(lw,lb,coup,j) !=None:
+                    if pionsprisb(lw,lb,coup,j)>max["points"]:
+                        max["coup"]=coup
+                        max["points"]=pionsprisb(lw,lb,coup,j)
+        return max["coup"]
 
 
 def pionsprisw(lw,lb,coup,j,a=2,b=1):
@@ -135,15 +163,37 @@ def pionsprisw(lw,lb,coup,j,a=2,b=1):
         b+=1
         return(pionsprisw(lw,lb,coup,j,a,b))
 
-def bestw(lb,lw):                                                    #renvoie le coup qui prend le plus de pion d'un coup
-    max={"coup":None,"points":0}
-    for coup in cpw(lb,lw):
-        for j in (-9,-8,-7,-1,+1,+7,+8,+9):
-            if pionsprisw(lw,lb,coup,j) !=None:
-                if pionsprisw(lw,lb,coup,j)>max["points"]:
-                    max["coup"]=coup
-                    max["points"]=pionsprisw(lw,lb,coup,j)
-    return max["coup"]
+def bestw(lb,lw,tour):  
+    print(tour)                                                  #renvoie le coup qui prend le plus de pion d'un coup
+    if tour<16:
+        for coup in cpw(lb,lw):
+            celui={"coup":None}
+            if coup in cent:
+                celui["coup"]=coup
+            elif coup in dix and celui["coup"] not in cent:
+                celui["coup"]=coup
+            elif coup in cinq and celui["coup"] not in cent and celui["coup"] not in dix:
+                celui["coup"]=coup
+            elif coup in moinsun and celui["coup"] not in cent and celui["coup"] not in dix and celui["coup"] not in cinq:
+                celui["coup"]=coup
+            elif coup in moinsdeux and celui["coup"] not in cent and celui["coup"] not in dix and celui["coup"] not in cinq and celui["coup"] not in moinsun:
+                celui["coup"]=coup
+            elif coup in moinsvingt and celui["coup"] not in cent and celui["coup"] not in dix and celui["coup"] not in cinq and celui["coup"] not in moinsun and celui["coup"] not in moinsdeux:
+                celui["coup"]=coup
+            elif coup in moinscinquante and celui["coup"] not in cent and celui["coup"] not in dix and celui["coup"] not in cinq and celui["coup"] not in moinsun and celui["coup"] not in moinsdeux and celui["coup"] not in moinsvingt:
+                celui["coup"]=coup
+            return celui["coup"]
+    else:
+        max={"coup":None,"points":0}
+        for coup in cpw(lb,lw):
+            if coup in cent:
+                return coup
+            for j in (-9,-8,-7,-1,+1,+7,+8,+9):
+                if pionsprisw(lw,lb,coup,j) !=None:
+                    if pionsprisw(lw,lb,coup,j)>max["points"]:
+                        max["coup"]=coup
+                        max["points"]=pionsprisw(lw,lb,coup,j)
+        return max["coup"]
 
 #LANCEMENT
 def inscription():                                                 #fonction de depart qui se connecte au serveur de jeu et s'inscript
@@ -158,9 +208,12 @@ def server():                                                      #fonction qui
     with socket.socket() as s:                                     #renvoie pong quand reçoit ping
         s.bind(myserveraddress)                                    #renvoie un coup quand on lui en demande un
         s.listen() 
+        tour=0
         while True:
+            tour+=1
             jeu, address=s.accept()
             message=json.loads(jeu.recv(2048).decode())
+            print(message)
             if message==ping:
                 jeu.send(json.dumps(pong).encode())
             if message['request']=='play':
@@ -170,12 +223,12 @@ def server():                                                      #fonction qui
                     if cpb(lb,lw)==[]:
                         case='null'
                     else:
-                        case=bestb(lb,lw)                       
+                        case=bestb(lb,lw,tour)                       
                 if message['state']['current']==1:
                     if cpw(lb,lw)==[]:
                         case='null'
                     else:
-                        case=bestw(lb,lw)
+                        case=bestw(lb,lw,tour)
                 jsonstring='{"response": "move","move": ' + str(case) +',' + '"message": "'+str(case)+'"}'           
                 data=json.loads(jsonstring)
                 file=open("move.json",'w')
@@ -184,6 +237,6 @@ def server():                                                      #fonction qui
                     data=file.read() 
                 jeu.send(data.encode())
 
-print("c'est parti !")                      
+                     
 if __name__ == "__main__":
     inscription()
