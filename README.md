@@ -10,7 +10,7 @@ Ensuite l'IA joue le coup qui retourne le plus de pions adverse mais joue toujou
 Cela permet de prendre des cases stratégiques dans un premier temps,puis de raffler les pions adverese dans un deuxième temps
 L'ia aléatoire se fait OBLITERER en 1v1 pûr dans les règles
 
-othello poids.jpgimage.png
+othello poids.jpg
 
 La grande particularité de notre programme est d'avoir nous-mêmes créé le système de détection de coups possibles en fonction de la lecture du board dans le fichier json reçu par le serveur hôte de partie. Ce programme est visible dans le fichier "aveclesbords.py"
 Il consite en un appel de fonction récursive propre à chaque couleur. Gérer les bords n'a pas été facile.
