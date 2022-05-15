@@ -3,8 +3,8 @@ import json
 import random
 
 ipserver="localhost"
-port=3000
-hisserverAddress=(ipserver,port)      #adresse de l'hôte du serveur
+portserver=3000
+hisserverAddress=(ipserver,portserver)      #adresse de l'hôte du serveur
 monip='0.0.0.0'
 monport=8887
 myserveraddress=(monip,monport)    
@@ -14,10 +14,10 @@ ping={"request": "ping"}
 bord=[0,1,2,3,4,5,6,7,15,23,31,39,47,55,63,62,61,60,59,58,57,56,48,40,32,24,16,8] 
 bordg=[0,8,16,24,32,40,48,56]     #bord gauche
 bordd=[7,15,23,31,39,47,55,63]      #bord droit
-bordh=[0,1,2,3,4,5,6,7]
-borb=[56,57,58,59,60,61,62,63]
+bordh=[0,1,2,3,4,5,6,7]             #bord haut 
+borb=[56,57,58,59,60,61,62,63]      #bord bas
 
-cent=[0,7,56,63]
+cent=[0,7,56,63]                     #les poids des cases dans le tableau
 moinsvingt=[1,8,6,15,55,62,57,48]
 moinsun=[18,19,20,21,26,27,28,29,34,35,36,37,42,43,44,45]
 moinsdeux=[10,11,12,13,22,30,38,46,53,52,51,50,41,33,25,17]
@@ -27,12 +27,12 @@ cinq=[24,32,59,60,31,39,3,4]
 
 
 #TROUVER LES COUPS
-def recursifb(lb,lw,cp,i,j,a,b):               #fonction recursive qui retourne la case sur laquelle peut jouer le joueur noir pour une certaine case de départ
+def recursifb(lb,lw,cp,i,j,a,b):               #fonction recursive qui retourne la case sur laquelle peut jouer le joueur noir pour une certaine case de départ 
     if i+j*(a-2) in bordd:                     #et une certaine direction j    renvoie None si pas de coup possible
         if j in [-7,+1,+9]: 
             return None                        #ma petite fierté cette fonction
     if i+j*(a-2) in bordg:
-        if j in [-9,-1,+7]:                    #lb = liste black lw = liste white
+        if j in [-9,-1,+7]:                    #lb = liste black lw = liste white     cp=coups possibles
             return None                        #i est la case dont on regarde les voisins    a et b sont des index
     if i+j*b in lw:
         if i+j*a not in cp:
@@ -116,7 +116,7 @@ def pionsprisb(lw,lb,coup,j,a=2,b=1):                               #fonction re
         b+=1
         return(pionsprisb(lw,lb,coup,j,a,b))
 
-def bestb(lb,lw,tour):
+def bestb(lb,lw,tour):     #comportement différent en fonction du tour de jeu
     print(tour) 
     if tour<16:
         for coup in cpb(lb,lw):
