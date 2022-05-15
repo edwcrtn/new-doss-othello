@@ -6,11 +6,10 @@ Edwin Creten 20220 et Timothé Couturier 20091
 Le programme DERNIERE_VERSION est un IA qui a été spécialement designée pour le jeu de othello de mr. Lurkin
 
 La stratégie est la suivante : les 17 premiers coups l'IA joue le meilleur coup possible en fonction du poids de la case.  
+Le tableau des poids des cases est à retrouver ici : https://github.com/xX-DarkEdwin-Xx/new-doss-othello/blob/master/othello%20poids.jpg
 Ensuite l'IA joue le coup qui retourne le plus de pions adverse mais joue toujours dans les coins en priorié. 
 Cela permet de prendre des cases stratégiques dans un premier temps,puis de raffler les pions adverese dans un deuxième temps
 L'ia aléatoire se fait OBLITERER en 1v1 pûr dans les règles
-
-https://github.com/xX-DarkEdwin-Xx/new-doss-othello/blob/master/othello%20poids.jpg
 
 La grande particularité de notre programme est d'avoir nous-mêmes créé le système de détection de coups possibles en fonction de la lecture du board dans le fichier json reçu par le serveur hôte de partie. Ce programme est visible dans le fichier "aveclesbords.py"
 Il consite en un appel de fonction récursive propre à chaque couleur. Gérer les bords n'a pas été facile.
